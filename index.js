@@ -13,20 +13,20 @@ app.get('/', function (req, res) {
   res.sendFile(process.cwd() + '/views/index.html');
 });
 
-app.post('/api/fileanalyse', (req, res) => {
+app.post('/api/fileanalyze', (req, res) => {
   try {
     res.json({
-      name:  req.originalname,
-      type: req.mimetype,
-      size: req.size
+      test: "test"
+      // name:  req.originalname,
+      // type: req.mimetype,
+      // size: req.size
     })
   } catch (error) {
     res.status(404).send("Error!")
+    console.log(error)
   }
 
 })
-
-
 
 const port = process.env.PORT || 3000;
 app.listen(port, function () {
