@@ -1,6 +1,6 @@
 var express = require('express');
 const multer = require('multer');
-const upload = multer({ dest: 'uploads/'})
+const upload = multer().single('upfile');
 var cors = require('cors');
 require('dotenv').config()
 
@@ -13,19 +13,21 @@ app.get('/', function (req, res) {
   res.sendFile(process.cwd() + '/views/index.html');
 });
 
-app.post('/api/fileanalyze', (req, res) => {
-  try {
-    res.json({
-      test: "test"
-      // name:  req.originalname,
-      // type: req.mimetype,
-      // size: req.size
-    })
-  } catch (error) {
-    res.status(404).send("Error!")
-    console.log(error)
-  }
+app.post('/api/fileanalyse', (req, res) => {
+  upload(req, res, (err) => {
+    if (err instanceof multer.MulterError) {
+      // Error on upload!
+    }
+    else if (err) {
+      // Unknown error
+    }
 
+    res.json({
+      name:  req.originalname,
+      type: req.mimetype,
+      size: req.size
+    })
+  })
 })
 
 const port = process.env.PORT || 3000;
